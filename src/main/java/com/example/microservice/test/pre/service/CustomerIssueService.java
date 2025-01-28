@@ -5,27 +5,19 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.microservice.test.pre.dto.CustomerIssueDTO;
-import com.example.microservice.test.pre.exception.ForwardRoutingNotFound;
 import com.example.microservice.test.pre.exception.IssueNotFoundException;
 import com.example.microservice.test.pre.model.CustomerIssue;
-import com.example.microservice.test.pre.model.RoutingRule;
 import com.example.microservice.test.pre.repository.CustomerIssueRepository;
-import com.example.microservice.test.pre.repository.RoutingRuleRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class CustomerIssueService {
 
 	private final CustomerIssueRepository customerIssueRepository;
+	private final ForwardingService forwardingService;
 
-	private final RoutingRuleRepository routingRuleRepository;
-
-	public CustomerIssueService(CustomerIssueRepository customerIssueRepository,
-			RoutingRuleRepository routingRuleRepository) {
+	public CustomerIssueService(CustomerIssueRepository customerIssueRepository, ForwardingService forwardingService) {
 		this.customerIssueRepository = customerIssueRepository;
-		this.routingRuleRepository = routingRuleRepository;
+		this.forwardingService = forwardingService;
 	}
 
 	public List<CustomerIssue> getCustomerIssues() {
@@ -42,10 +34,7 @@ public class CustomerIssueService {
 				.forwardTo(dto.getForwardTo()).status(dto.getStatus()).build();
 
 		// Forward to another service
-		RoutingRule routingRule = routingRuleRepository.findById(dto.getForwardTo())
-				.orElseThrow(() -> new ForwardRoutingNotFound("forward_to " + dto.getForwardTo() + " not found."));
-
-		log.info(routingRule.toString());
+		forwardingService.forwardRequest(dto);
 
 		return customerIssueRepository.save(savedItem);
 	}
