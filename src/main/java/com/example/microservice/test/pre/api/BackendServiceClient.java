@@ -8,6 +8,6 @@ import com.example.microservice.test.pre.dto.CustomerIssueDTO;
 
 @FeignClient(name = "backend-service", fallback = BackendServiceClientFallback.class)
 public interface BackendServiceClient {
-	@PostMapping("/process")
+	@PostMapping()
 	String forwardRequest(@RequestBody CustomerIssueDTO request);
 }
