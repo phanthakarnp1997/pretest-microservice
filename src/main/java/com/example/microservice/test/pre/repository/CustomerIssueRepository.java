@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.microservice.test.pre.model.CustomerIssue;
 
 @Repository
-public interface CustomerIssueRepository
-		extends
-			JpaRepository<CustomerIssue, Long> {
+public interface CustomerIssueRepository extends JpaRepository<CustomerIssue, Long> {
 
 }

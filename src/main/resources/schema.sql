@@ -16,3 +16,23 @@ BEGIN
         modifier_on DATETIME DEFAULT GETDATE()
     )
 END;
+
+
+IF OBJECT_ID(N'[dbo].[routing_rules]', 'U') IS NOT NULL
+BEGIN
+    DROP TABLE dbo.routing_rules
+END;
+
+IF OBJECT_ID(N'[dbo].[routing_rules]', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.routing_rules (
+        request_type VARCHAR(50) PRIMARY KEY ,
+        service_url VARCHAR(50) NOT NULL,
+    )
+END;
+
+INSERT INTO dbo.routing_rules (request_type, service_url)
+VALUES
+('credit_card', 'http://credit-card-service/api/v1/issue'),
+('account', 'http://account-service/api/v1/issue'),
+('loan', 'http://loan-service/api/v1/issue');

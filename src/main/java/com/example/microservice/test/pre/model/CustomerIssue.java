@@ -33,21 +33,21 @@ public class CustomerIssue {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "issue_id")
 	private Long issueId;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "forward_to")
 	private String forwardTo;
-	
+
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private RequestStatus status;
-	
+
 	@Column(name = "created_on")
 	@CreationTimestamp
 	private LocalDateTime createdOn;
-	
+
 	@Column(name = "modifier_on")
 	@UpdateTimestamp
 	private LocalDateTime modifierOn;
